@@ -1,15 +1,17 @@
 import { exit } from "process";
-import { CommandsRegistry, handlerLogin, handlerRegister, registerCommand, runCommand } from "./commands";
+import { CommandsRegistry, registerCommand, runCommand } from "./commands/commands";
 import { readConfig, setUser } from "./config";
+import { handlerLogin, handlerRegister, handlerReset } from "./commands/users";
 
 async function main() {
     const registry: CommandsRegistry = {};
     registerCommand(registry, "login", handlerLogin);
     registerCommand(registry, "register", handlerRegister);
+    registerCommand(registry, "reset", handlerReset);
 
     const rawArgs = process.argv;
     const args = rawArgs.slice(2);
-    if (args.length < 2) {
+    if (args.length < 1) {
         console.log("no arguments were given")
         exit(1);
     }
