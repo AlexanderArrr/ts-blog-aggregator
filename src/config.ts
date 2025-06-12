@@ -11,6 +11,7 @@ export type Config = {
 
 export function setUser(userName: string): void {
     const cfg = readConfig();
+    cfg.dbUrl = "postgres://postgres:postgres@localhost:5432/gator?sslmode=disable"
     cfg.currentUserName = userName;
 
     writeConfig(cfg);
