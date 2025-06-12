@@ -1,5 +1,5 @@
-import { setUser } from "../config";
-import { createUser, getUser, resetUsers } from "../lib/db/queries/users";
+import { readConfig, setUser } from "../config";
+import { createUser, getUser, getUsers, resetUsers } from "../lib/db/queries/users";
 
 export async function handlerLogin(cmdName: string, ...args: string[]): Promise<void> {
     if (args.length !== 1) {
@@ -36,4 +36,20 @@ export async function handlerRegister(cmdName: string, ...args: string[]): Promi
 export async function handlerReset(cmdName: string, ...args: string[]): Promise<void> {
     await resetUsers();
     console.log("The table 'users' has been successfully reset!");
+}
+
+export async function handlerUsers(cmdName: string, ...args: string[]): Promise<void> {
+    const users = await getUsers();
+    if (!users) {
+        throw new Error("there are no entries in the table 'users'");
+    };
+
+    const config = readConfig();
+    users.forEach((user) => {
+        if (config.currentUserName === user.name) {
+            console.log(` * ${user.name} (current)`);
+        } else {
+            console.log(` * ${user.name}`);
+        }
+    })
 }

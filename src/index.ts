@@ -1,13 +1,14 @@
 import { exit } from "process";
 import { CommandsRegistry, registerCommand, runCommand } from "./commands/commands";
 import { readConfig, setUser } from "./config";
-import { handlerLogin, handlerRegister, handlerReset } from "./commands/users";
+import { handlerLogin, handlerRegister, handlerReset, handlerUsers } from "./commands/users";
 
 async function main() {
     const registry: CommandsRegistry = {};
     registerCommand(registry, "login", handlerLogin);
     registerCommand(registry, "register", handlerRegister);
     registerCommand(registry, "reset", handlerReset);
+    registerCommand(registry, "users", handlerUsers)
 
     const rawArgs = process.argv;
     const args = rawArgs.slice(2);
